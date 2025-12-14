@@ -28,5 +28,5 @@ Ensure you have the following installed:
 
    ```bash
    git clone https://github.com/your-username/meetX.git
-   cd communeX
+   cd meetX
    ```
