@@ -1,0 +1,82 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discord Clone Home</title>
+    <link rel="stylesheet" href="{% static 'styles2.css' %}">
+</head>
+<body>
+    <header>
+    </header>
+    <div class="container">
+        <aside class="sidebar">
+            <h2>Welcome, {{ user.username }}</h2>
+            <h2>Channels</h2>
+            <ul>
+                <li>general</li>
+                <li>random</li>
+                <li>help</li>
+            </ul>
+            <h2>Created Servers</h2>
+            <ul>
+                {% for server in created_servers %}
+                    <li><a href="{% url 'server_detail' server.id %}">{{ server.name }}</a></li>
+                {% endfor %}
+            </ul>
+            <h2>Joined Servers</h2>
+            <ul>
+                {% for server in joined_servers %}
+                    <li><a href="{% url 'join_server' server.id %}" class="enter">{{ server.name }}</a></li>
+                {% endfor %}
+            </ul>
+            <h2>Actions</h2>
+            <ul>
+                <li><a href="{% url 'create_server' %}" class="action-btn">Create Server</a></li>
+                <li><a href="{% url 'list_servers' %}" class="action-btn">Join Server</a></li>
+                <li><a href="{% url 'logout' %}" class="action-btn">Logout</a></li>
+            </ul>
+        </aside>
+        <div class="main-content">
+            <h2>ADD FRIENDS</h2>
+            <p>YOU CAN ADD FRIEND WITH YOUR USERNAME</p>
+            <div class="friends-nav">
+                <nav>
+                    <a href="{% url 'home' %}">Friends</a>
+                    <a href="#">Online</a>
+                    <a href="{% url 'friends_list' %}">All</a>
+                    <a href="{% url 'pending_requests' %}">Pending</a>
+                    <a href="#">Blocked</a>
+                    <a href="{% url 'home' %}" class="add-friend">Add Friend</a>
+                </nav>
+            </div>
+            <main class="chat">
+                <div class="search-form">
+                    <form method="post" action="{% url 'home' %}">
+                        {% csrf_token %}
+                        <input type="text" name="username" placeholder="Add friend with Discord username" required>
+                        <button type="submit">Search</button>
+                    </form>
+                </div>
+                <div class="search-results">
+                    {% for result in search_results %}
+                        <div class="user-result">
+                            <p>{{ result.username }}</p>
+                            {% if not result.already_friends %}
+                                <a href="{% url 'send_friend_request' result.id %}" class="add-friend-btn">Add Friend</a>
+                            {% else %}
+                                <span class="already-friends">Already friends or request pending</span>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="background-image"></div>
+                <div class="wumpus-message">
+                    <p>Wumpus is waiting on friends. You don't have to though!</p>
+                </div>
+            </main>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Servers</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'styles3.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Available Public Servers</h1>
+    </header>
+    <div class="container">
+        <div class="server-list">
+            {% for server in servers %}
+                <div class="server-item">
+                    <span class="server-name">{{ server.name }}</span>
+                    <p class="server-description">{{ server.description }}</p>
+                    <a href="{% url 'join_server' server.id %}" class="join-button">Join</a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
